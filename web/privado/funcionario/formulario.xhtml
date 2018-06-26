@@ -1,0 +1,88 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:form id="formEdicao">
+        <h:panelGroup rendered="#{controleFuncionario.editando}">
+            <div class="ui-fluid">
+                <p:messages id="messages"/>
+                <p:panelGrid columns="2" columnClasses="ui-grid-col-2, ui-grid-col-20"
+                             layout="grid" styleClass="ui-panelgrid-blank">
+                    <f:facet name="header">
+                        <p:outputLabel value="Edição de Funcionarios"/>
+                    </f:facet>
+                    <p:outputLabel value="ID"/>
+                    <p:inputText value="#{controleFuncionario.objeto.id}"
+                                 size="5" readonly="true"/>
+                    <p:outputLabel value="Nome" for="txtNome"/>
+                    <p:inputText value="#{controleFuncionario.objeto.nome}"
+                                 id="txtNome" size="50" maxlength="50"
+                                 required="true"/>
+                    <p:outputLabel value="Função" for="txtFuncao"/>
+                    <p:inputText value="#{controleFuncionario.objeto.funcao}"
+                                 id="txtFuncao" size="50" maxlength="50"
+                                 required="true"/>                    
+                    <p:outputLabel value="Loja" for="txtLoja"/>
+                    <p:inputText value="#{controleFuncionario.objeto.loja}"
+                                 id="txtLoja" size="5" maxlength="5" required="true"/>
+                    <p:outputLabel value="Login" for="txtLogin"/>
+                    <p:inputText value="#{controleFuncionario.objeto.login}"
+                                 id="txtLogin" size="20" maxlength="20" required="true"/>
+                    <p:outputLabel value="Password" for="txtPassword"/>
+                    <p:password value="#{controleFuncionario.objeto.password}"
+                                id="txtPassword" size="20" maxlength="20" redisplay="true" required="true"/>
+                    <p:commandButton value="Salvar"
+                                     icon="ui-icon-disk"
+                                     actionListener="#{controleFuncionario.salvar()}"
+                                     update="formEdicao :formListagem"/>
+
+                </p:panelGrid>
+                <h:panelGroup id="painelLiberacao">
+                    <p:panelGrid columns="2" columnClasses="ui-grid-col-2, ui-grid-col-20"
+                                 layout="grid" styleClass="ui-panelgrid-blank" rendered="#{controleFuncionario.editandoLiberacao}">
+                        <f:facet name="header">
+                            <p:outputLabel value="Edição de Liberação de Funcionário"/>
+                        </f:facet>
+                        
+                        <p:outputLabel value="Liberacao" for="selectLiberacao"/>
+                        <p:selectOneMenu id="selectLiberacao" value="#{controleFuncionario.liberacao}" filter="true">
+                            <f:converter converterId="converterLiberacao"/>
+                            <f:selectItem noSelectionOption="true" itemLabel="Selecione um registro"/>
+                            <f:selectItems value="#{controleFuncionario.daoLiberacao.listaTodos}" var="l" itemLabel="#{l.identificacao}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value=""/>
+                        <p:commandButton value="Salvar Liberacao" icon="ui-icon-disk" actionListener="#{controleFuncionario.salvarLiberacao()}"
+                                         id="btnAdicionarLiberacao" process="btnAdicionarLiberacao selectLiberacao"
+                                         update="messages painelLiberacao listagemLiberacao"/>
+                    </p:panelGrid>
+                </h:panelGroup>
+            </div>
+            <h:panelGroup id="listagemLiberacao">
+                <h:panelGroup rendered="#{!controleFuncionario.editandoLiberacao}">
+                    <p:commandButton value="Nova Liberacão" actionListener="#{controleFuncionario.novaLiberacao()}"
+                                     update="listagemLiberacao painelLiberacao" process="@this"/>
+                    <p:dataTable value="#{controleFuncionario.objeto.liberacoes}" var="lib" reflow="true">
+                        <f:facet name="header">
+                            <p:outputLabel value="Liberacões do Funcionario"/>
+                        </f:facet>
+                        <p:column headerText="Identificação">
+                            <p:outputLabel value="#{lib.identificacao}"/>
+                        </p:column>
+                        <p:column headerText="Descrição">
+                            <p:outputLabel value="#{lib.definicao}"/>
+                        </p:column>       
+                        <p:column headerText="Ações">
+                            <div align="center">
+                                <p:commandButton icon="ui-icon-trash" actionListener="#{controleFuncionario.removerLiberacao(lib)}"
+                                                 process="@this" update="@form"/>
+                            </div>
+                        </p:column>
+                    </p:dataTable>
+                </h:panelGroup>
+            </h:panelGroup>
+        </h:panelGroup>
+    </h:form>
+</html>
+
