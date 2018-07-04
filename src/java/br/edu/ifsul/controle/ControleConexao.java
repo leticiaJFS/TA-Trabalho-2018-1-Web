@@ -66,18 +66,18 @@ public class ControleConexao implements Serializable {
         return "/index";
     }
 
-//   public Boolean liberacao(){
-//       if(funcionarioAutenticado != null){
-//        for (int i = 0; i < funcionarioAutenticado.getLiberacoes().size(); i++) {
-//            if (funcionarioAutenticado.getLiberacoes().get(i).getIdentificacao().equals("SUPER")) {
-//                return true;
-//            }     
-//            
-//        }
-//       }
-//        return false;
-//
-//    }
+   public Boolean liberacao(){
+       if(funcionarioAutenticado != null){
+        for (int i = 0; i < funcionarioAutenticado.getLiberacoes().size(); i++) {
+            if (funcionarioAutenticado.getLiberacoes().get(i).getIdentificacao().equals("SUPER")) {
+                return true;
+            }     
+            
+        }
+       }
+        return false;
+
+    }
 
     public Funcionario getFuncionarioAutenticado() {
         return funcionarioAutenticado;

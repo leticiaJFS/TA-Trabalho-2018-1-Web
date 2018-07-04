@@ -14,7 +14,8 @@
                     <p:commandButton value="Novo"
                                      icon="ui-icon-plus"
                                      actionListener="#{controleFuncionario.novo()}"
-                                     update="formEdicao formListagem"/>
+                                     update="formEdicao formListagem" 
+                                     rendered="#{controleConexao.liberacao()}"/>
                     <p:dataTable value="#{controleFuncionario.dao.listaObjetos}"
                                  var="obj" reflow="true" id="listagem">
                         <f:facet name="header">                            
@@ -71,6 +72,7 @@
                                                  update="formListagem :formEdicao"/>
                                 <p:commandButton icon="ui-icon-trash"
                                                  actionListener="#{controleFuncionario.excluir(obj.id)}"
+                                                 rendered="#{controleConexao.liberacao()}"
                                                  process="@this"
                                                  update="formListagem"/>
                             </div>
